@@ -9,6 +9,15 @@ body {
     margin: 0;
 }
 
+.container {
+    /* For the general site structure */
+}
+
+.header {
+    /* For the header information */
+    font-size: x-large;
+}
+
 .construction-container {
     text-align: center;
 }
@@ -22,4 +31,8 @@ h1 {
     max-width: 100%;
     max-height: 300px;
     /* Increase the maximum height for the image */
+}
+
+.footer {
+    font-size: x-small;
 }

@@ -3,7 +3,7 @@ body {
     color: #fff;
     font-family: Arial, sans-serif;
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     height: 100vh;
     margin: 0;
@@ -14,6 +14,10 @@ body {
 #container {
     /* For the general site structure */
     flex-basis: 50%;
+}
+
+#navigation {
+    font-size: large;
 }
 
 #header {

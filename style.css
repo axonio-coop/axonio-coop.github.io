@@ -7,32 +7,32 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
+    /* This percentage means that 1em = 10px and allows for good looking text on different devices. */
+    font-size: 62.5%;
 }
 
-.container {
+#container {
     /* For the general site structure */
+    flex-basis: 50%;
 }
 
-.header {
+#header {
     /* For the header information */
-    font-size: x-large;
+    font-size: 10em;
 }
 
-.construction-container {
-    text-align: center;
+#content {
+    flex-direction: row;
 }
 
-h1 {
-    font-size: 36px;
-    /* Increase the font size for the text */
+.info-block h1 {
+    font-size: 5em;
 }
 
-#construction-image {
-    max-width: 100%;
-    max-height: 300px;
-    /* Increase the maximum height for the image */
+.info-block p {
+    font-size: 2em;
 }
 
-.footer {
+#footer {
     font-size: x-small;
 }

@@ -18,7 +18,7 @@ Utiliza este comando antes de fazeres commit. Este comando transforma SCSS em CS
 
 ### `npm run dev`
 
-Faz build do projeto 5 em 5 segundos. Caso cries novos ficheiros SCSS ou TypeScript, terás de executar este comando de novo.*-+
+Faz build do projeto 5 em 5 segundos. Caso cries novos ficheiros SCSS ou TypeScript, terás de executar este comando de novo.
 
 ## Estrutura de Ficheiros
 

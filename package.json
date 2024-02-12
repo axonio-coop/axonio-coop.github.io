@@ -1,0 +1,22 @@
+{
+    "scripts": {
+        "build": "mix build -p && ts-node index",
+        "dev": "concurrently \"mix watch\" \"ts-node index loop\""
+    },
+    "dependencies": {
+        "concurrently": "^8.2.2",
+        "escape-html": "^1.0.3",
+        "html-minifier": "^4.0.0",
+        "laravel-mix": "^6.0.49",
+        "ts-node": "^10.9.2"
+    },
+    "devDependencies": {
+        "@types/escape-html": "^1.0.4",
+        "@types/html-minifier": "^4.0.5",
+        "resolve-url-loader": "^5.0.0",
+        "sass": "^1.70.0",
+        "sass-loader": "^12.1.0",
+        "ts-loader": "^9.5.1",
+        "typescript": "^5.3.3"
+    }
+}

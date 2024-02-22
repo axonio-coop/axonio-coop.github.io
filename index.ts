@@ -1,7 +1,14 @@
 import { stat, readdir, unlink, lstat, readFile, mkdir, writeFile, rmdir, cp } from 'fs/promises';
-import { join, sep } from 'path';
+import { existsSync as exists } from 'fs';
+import { join, sep, basename } from 'path';
 import { minify } from 'html-minifier';
 import escape from 'escape-html';
+import { watch } from 'chokidar';
+import express from 'express';
+import { spawn } from 'child_process';
+import { WebSocket, WebSocketServer } from 'ws';
+
+const PORT = 8080;
 
 const MAIN_TITLE = 'Axónio';
 const TITLE_DIV = '·';
@@ -173,18 +180,105 @@ async function run(){
 
 let argument = process.argv[2] ?? '';
 
-if(argument === 'loop'){
+if(argument === 'dev'){
 
-    (async ()=>{
+    // --- STATIC SERVER ---
+
+    const app = express();
+
+    app.use(async (req, res, next)=>{
+
+        let path = join(__dirname, DOCS_BASE, req.path);
+
+        if(exists(path) && (await lstat(path)).isDirectory())
+            path = join(path, 'index.html');
+    
+        if(
+            !exists(path) ||
+            !path.endsWith('.html')
+        ) return next();
+
+        let html = await readFile(path, 'utf-8');
+
+        html += `<script>
+const ws = new WebSocket(\`ws://\${location.hostname}:\${parseInt(location.port) + 1}\`);
+ws.addEventListener('message', ()=>location.reload());
+</script>`;
+
+        res.send(html);
+
+    });
+
+    app.use(express.static(DOCS_BASE));
+    
+    app.listen(PORT, ()=>{
+
+        const URL = `http://localhost:${PORT}/`;
+        let command = '';
+
+        if(process.platform == 'darwin')
+            command = 'open';
         
-        while(true){
-
-            await run();
-
-            await (new Promise(r=>setTimeout(r, 5 * 1e3)))
-
+        if(process.platform == 'win32')
+            command = 'explorer.exe';
+        
+        if(process.platform == 'linux')
+            command = 'xdg-open';
+            
+        if(!command){
+            console.log(`Não foi possível abrir o browser na plataforma ${process.platform}! Por favor, denuncia este bug e abre este URL manualmente: ${URL}`);
+            return;
         }
 
-    })();
+        spawn(command, [ URL ]);
+
+    });
+
+    // --- WEBSOCKET ---
+
+    const wss = new WebSocketServer({ port: PORT + 1 });
+    wss.on('connection', ws=>{
+        (ws as any).isAlive = true;
+        ws.on('pong', ()=>(ws as any).isAlive = true);
+    });
+
+    let aliveCheck = setInterval(()=>{
+        for(let ws of wss.clients){
+
+            if(!(ws as any).isAlive)
+                return ws.terminate();
+
+            (ws as any).isAlive = false;
+            ws.ping();
+
+        }
+    }, 5e3);
+
+    wss.on('close', ()=>clearInterval(aliveCheck));
+
+    // --- FILE WATCHER ---
+
+    let watcher = watch([ './public', './src' ], {
+        ignored: [ p => p !== "." && /(^[.#]|(?:__|~)$)/.test(basename(p)) ],
+        ignoreInitial: true
+    });
+
+    async function handleChange(){
+        
+        await run();
+
+        for(let ws of wss.clients){
+            if(ws.readyState === WebSocket.OPEN)
+                ws.send('refresh');
+        }
+
+    }
+
+    watcher
+        .on('change', handleChange)
+        .on('add', handleChange)
+        .on('unlink', handleChange)
+        .on('addDir', handleChange)
+        .on('unlinkDir', handleChange);
 
 }else run();

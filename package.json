@@ -1,14 +1,17 @@
 {
     "scripts": {
         "build": "mix build -p && ts-node index",
-        "dev": "concurrently \"mix watch\" \"ts-node index loop\""
+        "dev": "concurrently \"mix watch\" \"ts-node index dev\""
     },
     "dependencies": {
+        "chokidar": "^3.6.0",
         "concurrently": "^8.2.2",
         "escape-html": "^1.0.3",
+        "express": "^4.18.2",
         "html-minifier": "^4.0.0",
         "laravel-mix": "^6.0.49",
-        "ts-node": "^10.9.2"
+        "ts-node": "^10.9.2",
+        "ws": "^8.16.0"
     },
     "devDependencies": {
         "@types/escape-html": "^1.0.4",

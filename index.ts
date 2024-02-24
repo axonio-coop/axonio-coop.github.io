@@ -281,4 +281,6 @@ ws.addEventListener('message', ()=>location.reload());
         .on('addDir', handleChange)
         .on('unlinkDir', handleChange);
 
+    run();
+
 }else run();

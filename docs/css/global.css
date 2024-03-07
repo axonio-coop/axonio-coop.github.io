@@ -1,1 +1,46 @@
-body{background-color:#ddd;color:#222;font-family:Inter,sans-serif;margin:0}header{-webkit-backdrop-filter:blur(15px);backdrop-filter:blur(15px);background-color:hsla(0,0%,87%,.2);border-bottom:1px solid #ccc;display:flex;gap:15px;justify-content:space-between;padding:25px;position:sticky;top:0}header a{color:inherit;font-weight:700;text-decoration:none}header a:hover{text-decoration:underline}header nav{display:flex;gap:5px}main{margin:25px auto;max-width:700px;min-height:calc(100vh - 150px)}footer{background-color:#222;color:#ddd;padding:25px}footer ul{margin:0}
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  color: #222;
+  background-color: #ddd;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 25px;
+  background-color: rgba(221, 221, 221, 0.2);
+  -webkit-backdrop-filter: blur(15px);
+          backdrop-filter: blur(15px);
+  border-bottom: 1px solid #ccc;
+}
+header a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: bold;
+}
+header a:hover {
+  text-decoration: underline;
+}
+header nav {
+  display: flex;
+  gap: 5px;
+}
+
+main {
+  margin: 25px auto;
+  max-width: 700px;
+  min-height: calc(100vh - 150px);
+}
+
+footer {
+  background-color: #222;
+  color: #ddd;
+  padding: 25px;
+}
+footer ul {
+  margin: 0;
+}
